@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPI Smart Input System</title>
+    <link rel="icon" type="image/png" href="logosmpit.png">
+    <link rel="shortcut icon" type="image/png" href="logosmpit.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+
+      /* --- TAMBAHAN CSS UNTUK LOGO --- */
+      .logo-img {
+        width: 80px;  /* Atur ukuran lebar logo di sini */
+        height: auto; /* Tinggi otomatis menyesuaikan */
+        margin-bottom: 15px; /* Jarak antara logo dan judul */
+        display: block; /* Agar logo bisa ditengah */
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      /* --- CSS: Tampilan Teknologi Biru Cerah (ASLI PUNYA ANDA) --- */
+      :root {
+        --primary-blue: #0284c7;
+        --secondary-blue: #0369a1;
+        --dark-bg: #f0f4f8;
+        --card-bg: #ffffff;
+        --text-color: #333;
+        --border-radius: 12px;
+      }
+
+      body {
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(135deg, #e0efff 0%, #f0f4f8 100%);
+        margin: 0;
+        padding: 20px;
+        color: var(--text-color);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container {
+        background: var(--card-bg);
+        width: 100%;
+        max-width: 650px;
+        padding: 0; /* Padding jadi 0 agar header full lebar */
+        overflow: hidden; /* Tambahan agar sudut melengkung rapi */
+        border-radius: var(--border-radius);
+        box-shadow: 0 10px 25px rgba(58, 123, 213, 0.15);
+        border-top: none; /* Hapus border atas lama */
+      }
+
+      /* Header Styling Baru */
+      header {
+        background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%); /* Warna Biru Cerah */
+        text-align: center;
+        padding: 30px 25px; /* Memberi ruang luas di header */
+        margin-bottom: 30px;
+        color: white; /* Agar teks jadi putih */
+      }
+
+      h1 {
+        margin: 0;
+        color: white; /* GANTI JADI PUTIH (sebelumnya var secondary-blue) */
+        font-size: 28px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 10px;
+        background: rgba(255, 255, 255, 0.2); /* Background transparan */
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        color: white; /* Teks Putih */
+      }
+
+      /* Form Elements */
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+      }
+
+      input[type="date"],
+      input[type="text"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 16px;
+        transition: all 0.3s;
+        background-color: #fafafa;
+      }
+
+      input:focus, select:focus, textarea:focus {
+        border-color: var(--secondary-blue);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.1);
+        background-color: #fff;
+      }
+
+      /* Student List Grid */
+      .student-list-container {
+        background: #f8fbff;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px dashed #bdd4e7;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .student-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .student-row:last-child {
+        border-bottom: none;
+      }
+
+      .student-name {
+        font-weight: 500;
+        font-size: 15px;
+        flex: 1;
+      }
+
+      .attendance-options {
+        display: flex;
+        gap: 10px;
+      }
+
+      /* Radio Button Customization */
+      .radio-group label {
+        display: inline-block;
+        cursor: pointer;
+        margin: 0;
+        font-size: 12px;
+        text-align: center;
+      }
+      
+      .radio-label-text {
+        display: block;
+        font-weight: bold;
+      }
+
+      /* Button Styling */
+      button.submit-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(to right, var(--secondary-blue), var(--primary-blue));
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        margin-top: 10px;
+      }
+
+      button.submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+      }
+      
+      button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      /* Status Messages */
+      .hidden { display: none; }
+      
+      #success-message {
+        text-align: center;
+        padding: 40px;
+      }
+      
+      .success-icon {
+        font-size: 50px;
+        color: #2ecc71;
+        margin-bottom: 20px;
+      }
+      
+      .loading {
+        text-align: center;
+        font-style: italic;
+        color: #888;
+        margin-top: 5px;
+        font-size: 12px;
+      }
+
+      /* Tambahan agar inputan tidak menempel ke pinggir layar */
+      .form-group {
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+      
+      button.submit-btn {
+        width: calc(100% - 60px); /* Kurangi lebar agar ada jarak */
+        margin-left: 30px;
+        margin-right: 30px;
+        margin-bottom: 30px;
+      }
+      
+      /* Agar pesan sukses juga rapi */
+      #success-message {
+        padding: 40px;
+      }
+
+      .copyright {
+        text-align: center;
+        font-size: 11px;
+        color: #999;
+        margin-top: 30px;
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+        
+        /* --- TAMBAHAN PENTING --- */
+        padding-bottom: 25px; /* Memberi jarak di bawah tulisan */
+        margin-bottom: 5px;   /* Jaga-jaga agar tidak mentok */
+        font-family: sans-serif;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      <div id="success-message" class="hidden">
+        <div class="success-icon">✓</div>
+        <h2>Alhamdulillah</h2>
+        <p>Data sudah dikirim.</p>
+        <button onclick="location.reload()" class="submit-btn" style="margin-top:20px;">Input Lagi</button>
+      </div>
+
+      <form id="bpiForm">
+        <header>
+          <img src="logosmpit.png" alt="Logo SMP IT" class="logo-img">
+          <h1>Jurnal BPI</h1>
+          <div class="subtitle">Smart Input System v2.0</div>
+        </header>
+
+        <div class="form-group">
+          <label for="tanggal">Tanggal</label>
+          <input type="date" id="tanggal" required>
+        </div>
+
+        <div class="form-group">
+          <label for="kelas">Pilih Kelas</label>
+          <select id="kelas" required> <option value="" disabled selected>-- Pilih Kelas --</option>
+            <option value="Kelas 7">Kelas 7</option>
+            <option value="Kelas 8">Kelas 8</option>
+            <option value="Kelas 9">Kelas 9</option>
+          </select>
+          <div id="loading-teacher" class="loading hidden">Mengambil data guru...</div>
+        </div>
+
+        <div class="form-group">
+          <label for="pengampu">Pilih Pengampu</label>
+          <select id="pengampu" disabled required> <option value="" disabled selected>-- Pilih Pengampu --</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="student-section" class="hidden">
+          <label>Daftar Siswa (Kehadiran)</label>
+          <div class="student-list-container" id="student-list">
+            <div style="text-align:center; color:#999; padding:20px;">
+              Silahkan pilih Kelas dan Pengampu terlebih dahulu.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="materi">Judul Materi</label>
+          <input type="text" id="materi" placeholder="Contoh: Adab kepada Orang Tua" required>
+        </div>
+
+        <div class="form-group">
+          <label for="catatan">Catatan</label>
+          <textarea id="catatan" rows="3" placeholder="Tambahkan catatan khusus..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="btn-kirim">Kirim Data</button>
+
+        <div class="copyright">
+             &copy; 2026 <span>aktechmaster</span> <br> Designed & Developed by aktechmaster
+          </div>
+        
+      </form>
+    </div>
+
+    
+
+    <script>
+      // --- KONFIGURASI URL (SUDAH DIPERBAIKI) ---
+      const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbyt0igeRw2eilUSsTlYS8tQOcOBA9AhzT2Tg_TRlsWeF2b35Btqw4_6zY7bm39TRkiAAg/exec"; 
+      // ------------------------------------------
+
+      let classData = {}; 
+
+      document.getElementById('tanggal').valueAsDate = new Date();
+
+      // 1. EVENT LISTENER SAAT KELAS DIPILIH
+      document.getElementById('kelas').addEventListener('change', loadTeachers);
+
+      function loadTeachers() {
+        const kelas = document.getElementById('kelas').value;
+        const teacherSelect = document.getElementById('pengampu');
+        const loading = document.getElementById('loading-teacher');
+        
+        // Reset UI
+        teacherSelect.innerHTML = '<option value="" disabled selected>-- Pilih Pengampu --</option>';
+        teacherSelect.disabled = true;
+        document.getElementById('student-list').innerHTML = '<div style="text-align:center; color:#999; padding:20px;">Silahkan pilih Pengampu.</div>';
+        
+        loading.classList.remove('hidden');
+        loading.textContent = "Sedang mengambil data dari sheet " + kelas + "...";
+
+        // MENGAMBIL DATA GURU (GET)
+        fetch(URL_GOOGLE_SCRIPT + "?action=get_data&kelas=" + encodeURIComponent(kelas))
+          .then(response => response.json())
+          .then(data => {
+            loading.classList.add('hidden');
+            
+            if (data.error) {
+              alert("Error Server: " + data.error);
+              return;
+            }
+
+            classData = data;
+            const teachers = Object.keys(data);
+
+            if (teachers.length === 0) {
+               alert("Data kosong! Pastikan Sheet '" + kelas + "' ada isinya.");
+               teacherSelect.innerHTML = '<option value="">Data Kosong</option>';
+            } else {
+              teachers.forEach(function(guru) {
+                const option = document.createElement('option');
+                option.value = guru;
+                option.text = guru;
+                teacherSelect.appendChild(option);
+              });
+              teacherSelect.disabled = false;
+            }
+          })
+          .catch(error => {
+            loading.classList.add('hidden');
+            alert("GAGAL KONEKSI:\n" + error.message);
+          });
+      }
+
+      // 2. EVENT LISTENER SAAT PENGAMPU DIPILIH
+      document.getElementById('pengampu').addEventListener('change', loadStudents);
+
+      function loadStudents() {
+        const pengampu = document.getElementById('pengampu').value;
+        const studentContainer = document.getElementById('student-list');
+        const studentSection = document.getElementById('student-section');
+        
+        studentContainer.innerHTML = ''; 
+        studentSection.classList.remove('hidden'); 
+        
+        const students = classData[pengampu] || [];
+        
+        if (students.length === 0) {
+          studentContainer.innerHTML = '<div>Tidak ada siswa terdaftar.</div>';
+          return;
+        }
+
+        students.forEach(function(namaSiswa, index) {
+          const row = document.createElement('div');
+          row.className = 'student-row';
+          const radioName = 'status_' + index; 
+
+          row.innerHTML = `
+            <div class="student-name">${namaSiswa}</div>
+            <div class="attendance-options">
+              <div class="radio-group">
+                <label><input type="radio" name="${radioName}" value="Hadir" data-siswa="${namaSiswa}" checked> <span class="radio-label-text" style="color:#2ecc71">H</span></label>
+              </div>
+              <div class="radio-group">
+                <label><input type="radio" name="${radioName}" value="Sakit" data-siswa="${namaSiswa}"> <span class="radio-label-text" style="color:#f1c40f">S</span></label>
+              </div>
+              <div class="radio-group">
+                <label><input type="radio" name="${radioName}" value="Izin" data-siswa="${namaSiswa}"> <span class="radio-label-text" style="color:#3498db">I</span></label>
+              </div>
+              <div class="radio-group">
+                <label><input type="radio" name="${radioName}" value="Alpa" data-siswa="${namaSiswa}"> <span class="radio-label-text" style="color:#e74c3c">A</span></label>
+              </div>
+            </div>
+          `;
+          studentContainer.appendChild(row);
+        });
+      }
+
+      // 3. FUNGSI SUBMIT FORM (POST)
+      document.getElementById('bpiForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('btn-kirim');
+        const originalText = btn.textContent;
+        btn.textContent = "Sedang Mengirim...";
+        btn.disabled = true;
+
+        const absensiData = {};
+        document.querySelectorAll('.student-row').forEach(row => {
+          const checkedRadio = row.querySelector('input[type="radio"]:checked');
+          if (checkedRadio) {
+            absensiData[checkedRadio.getAttribute('data-siswa')] = checkedRadio.value;
+          }
+        });
+
+        const formData = {
+          tanggal: document.getElementById('tanggal').value,
+          kelas: document.getElementById('kelas').value,
+          pengampu: document.getElementById('pengampu').value,
+          materi: document.getElementById('materi').value,
+          catatan: document.getElementById('catatan').value,
+          absensi: absensiData
+        };
+
+        // --- BAGIAN YANG TADI ERROR SUDAH DIPERBAIKI DI SINI ---
+        fetch(URL_GOOGLE_SCRIPT, {
+          method: 'POST',
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(result => {
+          if (result.status === 'success') {
+            document.getElementById('bpiForm').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+          } else {
+            throw new Error(result.message);
+          }
+        })
+        .catch(error => {
+          alert("GAGAL MENYIMPAN:\n" + error.message);
+          btn.textContent = originalText;
+          btn.disabled = false;
+        });
+      });
+    </script>
+  </body>
+</html>
